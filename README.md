@@ -1,7 +1,7 @@
 # Transfer-Money-API
 **Author: Ehab Elagizy**
 
-2 APIs to retrieve balance and create transactions
+2 APIs to retrieve balance and create transactions. The project is developed in Java Spring Boot.
 
 ## Prerequisites
 - MongoDB installed
@@ -31,8 +31,13 @@
     http://localhost:8080/create
 }
 ```
+- Verify the changes on the database **MoneyAPI** on both collections: **balance** and **transactions**
+- Verify project functionality using the unit tests.
 ## Summary
 - 2 API endpoints within the same project.
-- Using Spring Boot, Spring Data to connect to MongoDB
+- Using Spring Boot (2.1.6.RELEASE), Spring Data to connect to MongoDB
 - Using MongoDB to store balance and transactions
 - Swagger API Specification: https://app.swaggerhub.com/apis/Elagizy/Transfer-Money-API/1.0.0
+- APIs are following REST standards.
+- The project is using Gradle for build automation.
+- No 3rd-party libraries needed.

@@ -6,7 +6,11 @@ import com.moneyapi.mongo.Transactions;
 import com.moneyapi.mongo.TransactionsRepo;
 import org.bson.types.Decimal128;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,6 +22,12 @@ public class CreateController {
     private TransactionsRepo transactions;
     @Autowired
     private BalanceRepo balance;
+    @Autowired
+    public RestTemplate restTemplate;
+
+    Balance load() {
+        return restTemplate.getForObject("http://localhost:8080/retrieve", Balance.class);
+    }
 
     @RequestMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Transactions create(@RequestPart String amount) {
@@ -31,9 +41,8 @@ public class CreateController {
         }
         balance.save(b);
         // Verify balance By calling retrieve API.
-        RestTemplate restTemplate = new RestTemplate();
-        Balance verifyBalance = restTemplate.getForObject("http://localhost:8080/retrieve", Balance.class);
-        if (verifyBalance != null && verifyBalance.getBalance().equals(b.getBalance())) {
+        Balance verifyBalance = load();
+        if (verifyBalance.getBalance().equals(b.getBalance())) {
             // Save Transaction
             Transactions t;
             t = new Transactions(Decimal128.parse(amount), new Date(), verifyBalance.getBalance());
