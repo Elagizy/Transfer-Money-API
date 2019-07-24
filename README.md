@@ -7,7 +7,7 @@ Spring Data
 
 Database: MongoDB
 
-Swagger
+Swagger: https://app.swaggerhub.com/apis/Elagizy/Transfer-Money-API/1.0.0
 
 ##Summary 
 2 API endpoints within the same project.

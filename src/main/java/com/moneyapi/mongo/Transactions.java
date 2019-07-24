@@ -23,6 +23,10 @@ public class Transactions {
         this.currentBalance = currentBalance;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public String getAmount() {
         return amount.toString();
     }

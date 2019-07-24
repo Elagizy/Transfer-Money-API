@@ -1,18 +1,199 @@
-swagger: "2.0"
+openapi: 3.0.0
 info:
-  title: Sample API
-  description: API description in Markdown.
+  title: Transfer Money API
+  description: 2 APIs to retrieve balance and create transactions.
   version: 1.0.0
-host: api.example.com
-schemes:
-  - https
 paths:
-  /users:
+  /retrieve:
     get:
-      summary: Returns a list of users.
-      description: Optional extended description in Markdown.
-      produces:
-        - application/json
+      summary: Retrieve the current balance.
       responses:
         200:
-          description: OK
+          description: Balance retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  balance:
+                    type: number
+                  lastUpdate:
+                    type: string
+                example:
+                  balance: 568.2
+                  lastUpdate: Tue Jul 23 21:05:08 CST 2019
+        405:
+          description: Method Not allowed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  timestamp:
+                    type: string
+                  status:
+                    type: string
+                  error:
+                    type: number
+                  message:
+                    type: string
+                  trace:
+                    type: string
+                  path:
+                    type: string
+                example:
+                  timestamp: "2019-07-24T05:09:08.827+0000"
+                  status: 405
+                  error: "Method Not allowed"
+                  message: "Request method 'POST' not supported"
+                  trace: "org.springframework.web"
+                  path: "/retrieve"
+        500:
+          description: Internal Server Error.
+  /create:
+    post:
+      summary: Create transaction.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                amount:
+                  type: number
+                  description: The amount of transaction. (Negative or positive decimal value).
+              example:
+                amount: 1.5
+                summary: Add 1.5 to the balance
+      responses:
+        200:
+          description: Transaction created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  time:
+                    type: string
+                  amount:
+                    type: number
+                  currentBalance:
+                    type: number
+                example:
+                  id: 5d37d6b7adca2f43dc528162
+                  time: Wed Jul 24 11:51:43 CST 2019
+                  amount: 12
+                  currentBalance: 556.2
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  timestamp:
+                    type: string
+                  status:
+                    type: string
+                  error:
+                    type: number
+                  message:
+                    type: string
+                  trace:
+                    type: string
+                  path:
+                    type: string
+                example:
+                  timestamp: "2019-07-24T05:09:08.827+0000"
+                  status: 400
+                  error: "Bad Request"
+                  message: "Required request part 'amount' is not present"
+                  trace: "org.springframework.web"
+                  path: "/create"
+        405:
+          description: Method Not allowed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  timestamp:
+                    type: string
+                  status:
+                    type: string
+                  error:
+                    type: number
+                  message:
+                    type: string
+                  trace:
+                    type: string
+                  path:
+                    type: string
+                example:
+                  timestamp: "2019-07-24T05:09:08.827+0000"
+                  status: 405
+                  error: "Method Not allowed"
+                  message: "Request method 'GET' not supported"
+                  trace: "org.springframework.web"
+                  path: "/create"
+        415:
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  timestamp:
+                    type: string
+                  status:
+                    type: string
+                  error:
+                    type: number
+                  message:
+                    type: string
+                  trace:
+                    type: string
+                  path:
+                    type: string
+                example:
+                  timestamp: "2019-07-24T05:09:08.827+0000"
+                  status: 415
+                  error: "Unsupported Media Type"
+                  message: "Content type 'application/x-www-form-urlencoded' not supported"
+                  trace: "org.springframework.web"
+                  path: "/create"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  timestamp:
+                    type: string
+                  status:
+                    type: string
+                  error:
+                    type: number
+                  message:
+                    type: string
+                  trace:
+                    type: string
+                  path:
+                    type: string
+                example:
+                  timestamp: "2019-07-24T05:09:08.827+0000"
+                  status: 500
+                  error: "Internal Server Error"
+                  message: "Character a is neither a decimal digit number, decimal point, nor \"e\" notation exponential mark."
+                  trace: "java.lang.NumberFormatException"
+                  path: "/create"
+# Added by API Auto Mocking Plugin
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/Elagizy/Transfer-Money-API/1.0.0
+  - description: localhost
+    url: http://localhost:8080

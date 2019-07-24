@@ -7,13 +7,9 @@ import com.moneyapi.mongo.TransactionsRepo;
 import org.bson.types.Decimal128;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.text.ParseException;
 import java.util.Date;
 
 @RestController
@@ -23,8 +19,8 @@ public class CreateController {
     @Autowired
     private BalanceRepo balance;
 
-    @RequestMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public Transactions create(@RequestParam(value = "amount") String amount) throws ParseException {
+    @RequestMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    public Transactions create(@RequestPart String amount) {
         // Update Balance
         Balance b;
         if (balance.findAll().size() == 0) {
