@@ -41,3 +41,4 @@
 - APIs are following REST standards.
 - The project is using Gradle for build automation.
 - No 3rd-party libraries needed.
+- MongoDB can be configured from **application.properties** file
